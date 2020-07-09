@@ -3,8 +3,10 @@ Michael Patel
 July 2020
 
 Project description:
+    Generate tweets in the style of President Trump
 
 File description:
+    For model preprocessing and training
 """
 ################################################################################
 # Imports
