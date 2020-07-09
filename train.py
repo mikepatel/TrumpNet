@@ -43,19 +43,19 @@ if __name__ == "__main__":
     for tweet in tweets:
         line = [char2int[c] for c in tweet]
         tweets_as_ints.append(line)
-    
-    quit()
 
     # build n-gram sequences
     n_gram_sequences = []
-    for t in tweets:
+    for t in tweets_as_ints:
         for i in range(1, len(t)):
             n_gram_sequences.append(t[:i+1])
 
         #print(n_gram_sequences)
+    print(f'Number of n-gram sequences: {len(n_gram_sequences)}')
 
     # pad sequences
     quit()
 
-    #tweets_str = "\n".join(tweets)
-    #print(f'Length of tweet string: {len(tweets_str)}')
+    # build (features, labels)
+
+    # shuffle and batch
