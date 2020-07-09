@@ -17,9 +17,22 @@ import tensorflow as tf
 
 
 ################################################################################
+# Parameters
 TWEET_LENGTH = 280
 BUFFER_SIZE = 10000
-BATCH_SIZE =64
+BATCH_SIZE = 64
+
+
+################################################################################
+# chop tweets into <= 280 chunks
+def chop(s, l):  # chop into 280 character long sequences
+    if len(s) < TWEET_LENGTH + 1:
+        l.append(s)
+    else:
+        a = s[:TWEET_LENGTH]
+        b = s[TWEET_LENGTH:]
+        chop(a, l)
+        chop(b, l)
 
 
 ################################################################################
@@ -31,7 +44,6 @@ if __name__ == "__main__":
     csv_filepath = os.path.join(os.getcwd(), "data\\tweets.csv")
     df = pd.read_csv(csv_filepath, encoding="windows-1252")
 
-    #
     tweets = df["Tweet_Text"]
     num_tweets = len(tweets)
     print(f'Number of tweets: {num_tweets}')
@@ -49,19 +61,9 @@ if __name__ == "__main__":
 
     # convert to sequences of ints
     tweets_as_ints = []
-
-    def chop(s):  # chop into 280 character long sequences
-        if len(s) < TWEET_LENGTH+1:
-            tweets_as_ints.append(s)
-        else:
-            a = s[:TWEET_LENGTH]
-            b = s[TWEET_LENGTH:]
-            chop(a)
-            chop(b)
-
     for tweet in tweets:
         line = [char2int[c] for c in tweet]
-        chop(line)
+        chop(line, tweets_as_ints)
 
     # build n-gram sequences
     n_gram_sequences = []
