@@ -16,6 +16,8 @@ import tensorflow as tf
 
 ################################################################################
 TWEET_LENGTH = 280
+BUFFER_SIZE = 10000
+BATCH_SIZE =64
 
 
 ################################################################################
@@ -85,6 +87,9 @@ if __name__ == "__main__":
     print(f'Shape of features: {features.shape}')
     print(f'Shape of labels: {labels.shape}')
 
-    quit()
-
     # shuffle and batch
+    sequences = tf.data.Dataset.from_tensor_slices((features, labels))
+    sequences = sequences.shuffle(buffer_size=BUFFER_SIZE)
+    sequences = sequences.batch(batch_size=BATCH_SIZE, drop_remainder=True)
+
+    print(f'Shape of batch sequences: {sequences}')
