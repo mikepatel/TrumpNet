@@ -9,6 +9,7 @@ File description:
 ################################################################################
 # Imports
 import os
+import numpy as np
 import pandas as pd
 import tensorflow as tf
 
@@ -40,9 +41,19 @@ if __name__ == "__main__":
 
     # convert to sequences of ints
     tweets_as_ints = []
+
+    def chop(s):  # chop into 280 character long sequences
+        if len(s) < 281:
+            tweets_as_ints.append(s)
+        else:
+            a = s[:280]
+            b = s[280:]
+            chop(a)
+            chop(b)
+
     for tweet in tweets:
         line = [char2int[c] for c in tweet]
-        tweets_as_ints.append(line)
+        chop(line)
 
     # build n-gram sequences
     n_gram_sequences = []
@@ -54,6 +65,17 @@ if __name__ == "__main__":
     print(f'Number of n-gram sequences: {len(n_gram_sequences)}')
 
     # pad sequences
+    max_sequence_len = max([len(seq) for seq in n_gram_sequences])
+    #max_sequence_len = max([len(seq) for seq in tweets_as_ints])
+    print(f'Max sequence length: {max_sequence_len}')
+    input_seqs = np.array(tf.keras.preprocessing.sequence.pad_sequences(
+        sequences=n_gram_sequences,
+        #sequences=tweets_as_ints,
+        maxlen=max_sequence_len,
+        padding="pre"
+    ))
+    print(f'Number of padded sequences: {len(input_seqs)}')
+
     quit()
 
     # build (features, labels)
