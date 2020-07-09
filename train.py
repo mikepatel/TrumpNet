@@ -21,3 +21,36 @@ if __name__ == "__main__":
     # read in CSV data
     csv_filepath = os.path.join(os.getcwd(), "data\\tweets.csv")
     df = pd.read_csv(csv_filepath, encoding="windows-1252")
+
+    #
+    tweets = df["Tweet_Text"]
+    num_tweets = len(tweets)
+    print(f'Number of tweets: {num_tweets}')
+
+    # character-based, so no need for tf.keras.preprocessing.text.Tokenizer
+    # convert to sequences of ints
+    unique_chars = sorted(set("\n".join(tweets)))
+    vocab_size = len(unique_chars)  # number of unique characters
+
+    # create mapping from character > int
+    char2int = {u: i for i, u in enumerate(unique_chars)}
+
+    # create mapping from int > character
+    int2char = {i: u for i, u in enumerate(unique_chars)}
+
+    
+    quit()
+
+    # build n-gram sequences
+    n_gram_sequences = []
+    for t in tweets:
+        for i in range(1, len(t)):
+            n_gram_sequences.append(t[:i+1])
+
+        #print(n_gram_sequences)
+
+    # pad sequences
+    quit()
+
+    #tweets_str = "\n".join(tweets)
+    #print(f'Length of tweet string: {len(tweets_str)}')
