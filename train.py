@@ -38,6 +38,11 @@ if __name__ == "__main__":
     # create mapping from int > character
     int2char = {i: u for i, u in enumerate(unique_chars)}
 
+    # convert to sequences of ints
+    tweets_as_ints = []
+    for tweet in tweets:
+        line = [char2int[c] for c in tweet]
+        tweets_as_ints.append(line)
     
     quit()
 
