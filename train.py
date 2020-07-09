@@ -15,6 +15,10 @@ import tensorflow as tf
 
 
 ################################################################################
+TWEET_LENGTH = 280
+
+
+################################################################################
 # Main
 if __name__ == "__main__":
     print(f'TF version: {tf.__version__}')
@@ -43,11 +47,11 @@ if __name__ == "__main__":
     tweets_as_ints = []
 
     def chop(s):  # chop into 280 character long sequences
-        if len(s) < 281:
+        if len(s) < TWEET_LENGTH+1:
             tweets_as_ints.append(s)
         else:
-            a = s[:280]
-            b = s[280:]
+            a = s[:TWEET_LENGTH]
+            b = s[TWEET_LENGTH:]
             chop(a)
             chop(b)
 
@@ -61,23 +65,26 @@ if __name__ == "__main__":
         for i in range(1, len(t)):
             n_gram_sequences.append(t[:i+1])
 
-        #print(n_gram_sequences)
     print(f'Number of n-gram sequences: {len(n_gram_sequences)}')
 
     # pad sequences
     max_sequence_len = max([len(seq) for seq in n_gram_sequences])
-    #max_sequence_len = max([len(seq) for seq in tweets_as_ints])
     print(f'Max sequence length: {max_sequence_len}')
     input_seqs = np.array(tf.keras.preprocessing.sequence.pad_sequences(
         sequences=n_gram_sequences,
-        #sequences=tweets_as_ints,
         maxlen=max_sequence_len,
         padding="pre"
     ))
     print(f'Number of padded sequences: {len(input_seqs)}')
 
-    quit()
-
     # build (features, labels)
+    # features = sequences except last token
+    # labels = just last token
+    features = input_seqs[:, :-1]
+    labels = input_seqs[:, -1]
+    print(f'Shape of features: {features.shape}')
+    print(f'Shape of labels: {labels.shape}')
+
+    quit()
 
     # shuffle and batch
