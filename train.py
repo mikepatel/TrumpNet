@@ -15,12 +15,8 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 
-
-################################################################################
-# Parameters
-TWEET_LENGTH = 280
-BUFFER_SIZE = 10000
-BATCH_SIZE = 64
+from model import *
+from parameters import *
 
 
 ################################################################################
@@ -40,6 +36,8 @@ def chop(s, l):  # chop into 280 character long sequences
 if __name__ == "__main__":
     print(f'TF version: {tf.__version__}')
 
+    # ----- ETL ----- #
+    # ETL = Extraction, Transformation, Load
     # read in CSV data
     csv_filepath = os.path.join(os.getcwd(), "data\\tweets.csv")
     df = pd.read_csv(csv_filepath, encoding="windows-1252")
@@ -97,3 +95,13 @@ if __name__ == "__main__":
     sequences = sequences.batch(batch_size=BATCH_SIZE, drop_remainder=True)
 
     print(f'Shape of batch sequences: {sequences}')
+
+    # ----- MODEL ----- #
+    model = build_model(
+        vocab_size=vocab_size,
+        batch_size=BATCH_SIZE
+    )
+
+    model.summary()
+
+    # ----- TRAIN ----- #
