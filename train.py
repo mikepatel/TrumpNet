@@ -63,6 +63,7 @@ if __name__ == "__main__":
         line = [char2int[c] for c in tweet]
         chop(line, tweets_as_ints)
 
+    """
     # build n-gram sequences
     n_gram_sequences = []
     for t in tweets_as_ints:
@@ -70,6 +71,8 @@ if __name__ == "__main__":
             n_gram_sequences.append(t[:i+1])
 
     print(f'Number of n-gram sequences: {len(n_gram_sequences)}')
+    """
+    n_gram_sequences = tweets_as_ints
 
     # pad sequences
     max_sequence_len = max([len(seq) for seq in n_gram_sequences])
