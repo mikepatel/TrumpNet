@@ -116,7 +116,7 @@ if __name__ == "__main__":
     history = model.fit(
         x=sequences.repeat(),
         epochs=NUM_EPOCHS,
-        steps_per_epoch=len(input_seqs) // BATCH_SIZE
+        steps_per_epoch=1  #len(input_seqs) // BATCH_SIZE
     )
 
     # save model
