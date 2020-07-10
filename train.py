@@ -104,4 +104,17 @@ if __name__ == "__main__":
 
     model.summary()
 
+    model.compile(
+        loss=tf.keras.losses.sparse_categorical_crossentropy,
+        optimizer=tf.keras.optimizers.Adam()
+    )
+
     # ----- TRAIN ----- #
+    history = model.fit(
+        x=sequences.repeat(),
+        epochs=NUM_EPOCHS,
+        steps_per_epoch=len(input_seqs) // BATCH_SIZE
+    )
+
+    # save model
+    model.save(os.path.join(os.getcwd(), "saved_model"))
