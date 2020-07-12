@@ -1,2 +1,2 @@
 # TrumpNet
-Generate tweets similar in style to President Trump
+A project to generate tweets similar in style to that of President Trump
