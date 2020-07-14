@@ -15,20 +15,9 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 
+from data import Data
 from model import *
 from parameters import *
-
-
-################################################################################
-# chop tweets into <= 280 chunks
-def chop(s, l):  # chop into 280 character long sequences
-    if len(s) < TWEET_LENGTH + 1:
-        l.append(s)
-    else:
-        a = s[:TWEET_LENGTH]
-        b = s[TWEET_LENGTH:]
-        chop(a, l)
-        chop(b, l)
 
 
 ################################################################################
@@ -38,50 +27,9 @@ if __name__ == "__main__":
 
     # ----- ETL ----- #
     # ETL = Extraction, Transformation, Load
-    # read in CSV data
-    csv_filepath = os.path.join(os.getcwd(), "data\\tweets.csv")
-    df = pd.read_csv(csv_filepath, encoding="windows-1252")
-
-    tweets = df["Tweet_Text"]
-    num_tweets = len(tweets)
-    print(f'Number of tweets: {num_tweets}')
-
-    # character-based, so no need for tf.keras.preprocessing.text.Tokenizer
-    # convert to sequences of ints
-    unique_chars = sorted(set("\n".join(tweets)))
-    vocab_size = len(unique_chars)  # number of unique characters
-
-    # create mapping from character > int
-    char2int = {u: i for i, u in enumerate(unique_chars)}
-
-    # create mapping from int > character
-    int2char = {i: u for i, u in enumerate(unique_chars)}
-
-    # convert to sequences of ints
-    tweets_as_ints = []
-    for tweet in tweets:
-        line = [char2int[c] for c in tweet]
-        chop(line, tweets_as_ints)
-
-    """
-    # build n-gram sequences
-    n_gram_sequences = []
-    for t in tweets_as_ints:
-        for i in range(1, len(t)):
-            n_gram_sequences.append(t[:i+1])
-
-    print(f'Number of n-gram sequences: {len(n_gram_sequences)}')
-    """
-    n_gram_sequences = tweets_as_ints
-
-    # pad sequences
-    max_sequence_len = max([len(seq) for seq in n_gram_sequences])
-    print(f'Max sequence length: {max_sequence_len}')
-    input_seqs = np.array(tf.keras.preprocessing.sequence.pad_sequences(
-        sequences=n_gram_sequences,
-        maxlen=max_sequence_len,
-        padding="pre"
-    ))
+    data = Data()
+    input_seqs = data.get_padded_sequences()
+    vocab_size = data.get_vocab_size()
     print(f'Number of padded sequences: {len(input_seqs)}')
 
     # build (features, labels)
@@ -120,4 +68,6 @@ if __name__ == "__main__":
     )
 
     # save model
-    model.save(os.path.join(os.getcwd(), "saved_model"))
+    #model.save(os.path.join(os.getcwd(), "saved_model"))
+
+    # save weights > for generation, need to rebuild model with batch_size=1
