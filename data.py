@@ -35,15 +35,15 @@ class Data:
         self.vocab_size = len(unique_chars)  # number of unique characters
 
         # create mapping from character > int
-        char2int = {u: i for i, u in enumerate(unique_chars)}
+        self.char2int = {u: i for i, u in enumerate(unique_chars)}
 
         # create mapping from int > character
-        int2char = {i: u for i, u in enumerate(unique_chars)}
+        self.int2char = {i: u for i, u in enumerate(unique_chars)}
 
         # convert to sequences of ints
         tweets_as_ints = []
         for tweet in tweets:
-            line = [char2int[c] for c in tweet]
+            line = [self.char2int[c] for c in tweet]
             self.chop(line, tweets_as_ints)
 
         """
