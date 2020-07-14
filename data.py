@@ -46,15 +46,15 @@ class Data:
             line = [self.char2int[c] for c in tweet]
             self.chop(line, tweets_as_ints)
 
+        # build n-gram sequences
         """
-            # build n-gram sequences
-            n_gram_sequences = []
-            for t in tweets_as_ints:
-                for i in range(1, len(t)):
-                    n_gram_sequences.append(t[:i+1])
+        n_gram_sequences = []
+        for t in tweets_as_ints:
+            for i in range(1, len(t)):
+                n_gram_sequences.append(t[:i+1])
 
-            print(f'Number of n-gram sequences: {len(n_gram_sequences)}')
-            """
+        print(f'Number of n-gram sequences: {len(n_gram_sequences)}')
+        """
         n_gram_sequences = tweets_as_ints
 
         # pad sequences

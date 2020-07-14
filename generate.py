@@ -13,13 +13,14 @@ File description:
 import os
 import tensorflow as tf
 
+from data import Data
 from parameters import *
 
 
 ################################################################################
 # generate text output
 def generate_text():
-    data = Dataset()
+    data = Data()
 
 
 ################################################################################

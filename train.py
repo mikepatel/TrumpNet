@@ -71,3 +71,4 @@ if __name__ == "__main__":
     #model.save(os.path.join(os.getcwd(), "saved_model"))
 
     # save weights > for generation, need to rebuild model with batch_size=1
+    model.save_weights(SAVE_DIR)
