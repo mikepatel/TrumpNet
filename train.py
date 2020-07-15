@@ -44,9 +44,9 @@ if __name__ == "__main__":
 
     # build (features, labels)
     # features = sequences except last token
-    # labels = just last token
+    # labels = sequences except first token
     features = input_seqs[:, :-1]
-    labels = input_seqs[:, -1]
+    labels = input_seqs[:, 1:]
     print(f'Shape of features: {features.shape}')
     print(f'Shape of labels: {labels.shape}')
 
