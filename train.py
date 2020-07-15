@@ -21,6 +21,16 @@ from parameters import *
 
 
 ################################################################################
+# loss function
+def loss_fn(labels, logits):
+    return tf.keras.losses.sparse_categorical_crossentropy(
+        y_true=labels,
+        y_pred=logits,
+        from_logits=True
+    )
+
+
+################################################################################
 # Main
 if __name__ == "__main__":
     print(f'TF version: {tf.__version__}')
@@ -56,7 +66,7 @@ if __name__ == "__main__":
     model.summary()
 
     model.compile(
-        loss=tf.keras.losses.sparse_categorical_crossentropy,
+        loss=loss_fn,
         optimizer=tf.keras.optimizers.Adam()
     )
 

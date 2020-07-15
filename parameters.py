@@ -24,3 +24,4 @@ NUM_RNN_UNITS = 2048
 
 SAVE_DIR = os.path.join(os.getcwd(), "saved\\weights")
 START_STRING = "Make America"
+TEMPERATURE = 0.1
