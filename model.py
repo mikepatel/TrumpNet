@@ -42,11 +42,11 @@ def build_model(vocab_size, batch_size):
     )))
     """
 
-    m.add(tf.keras.layers.Bidirectional(tf.keras.layers.GRU(
+    m.add(tf.keras.layers.GRU(
         units=NUM_RNN_UNITS,
         return_sequences=True
         #stateful=True
-    )))
+    ))
 
     # Output layer
     m.add(tf.keras.layers.Dense(
