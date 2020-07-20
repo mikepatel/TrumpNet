@@ -31,7 +31,9 @@ class Data:
 
         # character-based, so no need for tf.keras.preprocessing.text.Tokenizer
         # convert to sequences of ints
-        unique_chars = sorted(set("\n".join(tweets)))
+        #tweets_str = "\n".join(tweets)
+        tweets_str = "".join(tweets)
+        unique_chars = sorted(set(tweets_str))
         self.vocab_size = len(unique_chars)  # number of unique characters
 
         # create mapping from character > int
