@@ -38,15 +38,39 @@ if __name__ == "__main__":
     # ----- ETL ----- #
     # ETL = Extraction, Transformation, Load
     data = Data()
-    input_seqs = data.get_padded_sequences()
+    #input_seqs = data.get_padded_sequences()
+    tweets = data.get_tweet_string()
     vocab_size = data.get_vocab_size()
-    print(f'Number of padded sequences: {len(input_seqs)}')
+    #print(f'Number of padded sequences: {len(input_seqs)}')
 
     # build (features, labels)
     # features = sequences except last token
     # labels = sequences except first token
-    features = input_seqs[:, :-1]
-    labels = input_seqs[:, 1:]
+    #features = input_seqs[:, :-1]
+    #print(features)
+    #labels = input_seqs[:, 1:]
+    #labels = input_seqs[:, -1]  # just last token
+    #labels = tf.keras.utils.to_categorical(y=labels, num_classes=data.vocab_size)  # 280 one-hot encoded
+    #print(labels)
+    #quit()
+
+    features = []
+    labels = []
+
+    # build list of sequences of int tokens
+    for i in range(0, len(tweets)-MAX_SEQ_LENGTH, MAX_SEQ_LENGTH):
+        # create batch of char (i.e. list of char)
+        f = tweets[i: i+MAX_SEQ_LENGTH]  # all char in chunk, except last
+        l = tweets[i+1: i+1+MAX_SEQ_LENGTH]  # all char in chunk, except first
+
+        # convert each char in chunk to int
+        features.append([data.char2int[c] for c in f])
+        labels.append([data.char2int[c] for c in l])
+
+    # convert from lists to arrays
+    features = np.array(features)
+    labels = np.array(labels)
+
     print(f'Shape of features: {features.shape}')
     print(f'Shape of labels: {labels.shape}')
 
@@ -67,7 +91,6 @@ if __name__ == "__main__":
 
     model.compile(
         loss=loss_fn,
-        #loss=tf.keras.losses.sparse_categorical_crossentropy,
         optimizer=tf.keras.optimizers.Adam()
     )
 
@@ -75,11 +98,8 @@ if __name__ == "__main__":
     history = model.fit(
         x=sequences.repeat(),
         epochs=NUM_EPOCHS,
-        steps_per_epoch=len(input_seqs) // BATCH_SIZE
+        steps_per_epoch=len(tweets) // BATCH_SIZE // MAX_SEQ_LENGTH
     )
-
-    # save model
-    #model.save(os.path.join(os.getcwd(), "saved_model"))
 
     # save weights > for generation, need to rebuild model with batch_size=1
     model.save_weights(SAVE_DIR)
