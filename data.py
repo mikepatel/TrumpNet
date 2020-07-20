@@ -26,13 +26,14 @@ class Data:
         df = pd.read_csv(csv_filepath, encoding="windows-1252")
 
         tweets = df["Tweet_Text"]
+        #tweets = ["".join(i) for i in df.values]
         num_tweets = len(tweets)
         print(f'Number of tweets: {num_tweets}')
 
         # character-based, so no need for tf.keras.preprocessing.text.Tokenizer
         # convert to sequences of ints
-        #tweets_str = "\n".join(tweets)
-        tweets_str = "".join(tweets)
+        tweets_str = "\n".join(tweets)
+        #tweets_str = "".join(tweets)
         unique_chars = sorted(set(tweets_str))
         self.vocab_size = len(unique_chars)  # number of unique characters
 
