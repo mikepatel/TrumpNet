@@ -11,6 +11,7 @@ File description:
 ################################################################################
 # Imports
 import os
+import re
 import numpy as np
 import pandas as pd
 import tensorflow as tf
@@ -32,13 +33,23 @@ class Data:
         # character-based, so no need for tf.keras.preprocessing.text.Tokenizer
         # convert to sequences of ints
         self.tweets_str = "\n".join(tweets)
+
+        # remove obscure characters
+        self.tweets_str = re.sub(
+            "[^A-Za-z0-9 \n.!?'()#$%&-]+",
+            "",
+            self.tweets_str
+        )
+
+        # unique characters in string
         unique_chars = sorted(set(self.tweets_str))
+
+        # number of unique characters = vocab size
         self.vocab_size = len(unique_chars)  # number of unique characters
         print(f'Vocab size: {self.vocab_size}')
 
         # create mapping from character > int
         self.char2int = {u: i for i, u in enumerate(unique_chars)}
-        #print(self.char2int)
 
         # create mapping from int > character
         self.int2char = {i: u for i, u in enumerate(unique_chars)}

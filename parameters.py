@@ -16,13 +16,13 @@ import os
 ################################################################################
 TWEET_LENGTH = 280
 
-NUM_EPOCHS = 10
+NUM_EPOCHS = 5
 BUFFER_SIZE = 10000
-BATCH_SIZE = 32
+BATCH_SIZE = 64
 EMBEDDING_DIM = 256
 NUM_RNN_UNITS = 2048
-MAX_SEQ_LENGTH = 280
+MAX_SEQ_LENGTH = 100
 
 SAVE_DIR = os.path.join(os.getcwd(), "saved\\weights")
 START_STRING = "Make America"
-TEMPERATURE = 0.1
+TEMPERATURE = 0.3

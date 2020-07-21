@@ -49,8 +49,7 @@ def build_model(vocab_size, batch_size):
 
     # Output layer
     m.add(tf.keras.layers.Dense(
-        units=vocab_size,
-        activation=tf.keras.activations.softmax
+        units=vocab_size
     ))
 
     return m

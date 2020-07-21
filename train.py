@@ -56,16 +56,11 @@ if __name__ == "__main__":
         labels.append([data.char2int[c] for c in l])
 
     # convert from lists to arrays
-    features = np.array(features)
-    labels = np.array(labels)
+    #features = np.array(features)
+    #labels = np.array(labels)
 
-    #print(f'Max len - features: {max([len(seq) for seq in features])}')
-    #print(f'Min len - features: {min([len(seq) for seq in features])}')
-    #print(f'Max len - labels: {max([len(seq) for seq in labels])}')
-    #print(f'Min len - labels: {min([len(seq) for seq in labels])}')
-
-    print(f'Shape of features: {features.shape}')
-    print(f'Shape of labels: {labels.shape}')
+    print(f'Shape of features: {np.array(features).shape}')
+    print(f'Shape of labels: {np.array(labels).shape}')
 
     # shuffle and batch
     sequences = tf.data.Dataset.from_tensor_slices((features, labels))
@@ -83,8 +78,10 @@ if __name__ == "__main__":
     model.summary()
 
     model.compile(
-        loss=loss_fn,
-        optimizer=tf.keras.optimizers.Adam()
+        #loss=loss_fn,
+        loss=tf.keras.losses.sparse_categorical_crossentropy,
+        optimizer=tf.keras.optimizers.Adam(),
+        metrics=["accuracy"]
     )
 
     # ----- TRAIN ----- #
