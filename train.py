@@ -38,22 +38,10 @@ if __name__ == "__main__":
     # ----- ETL ----- #
     # ETL = Extraction, Transformation, Load
     data = Data()
-    #input_seqs = data.get_padded_sequences()
     tweets = data.get_tweet_string()
     vocab_size = data.get_vocab_size()
-    #print(f'Number of padded sequences: {len(input_seqs)}')
 
     # build (features, labels)
-    # features = sequences except last token
-    # labels = sequences except first token
-    #features = input_seqs[:, :-1]
-    #print(features)
-    #labels = input_seqs[:, 1:]
-    #labels = input_seqs[:, -1]  # just last token
-    #labels = tf.keras.utils.to_categorical(y=labels, num_classes=data.vocab_size)  # 280 one-hot encoded
-    #print(labels)
-    #quit()
-
     features = []
     labels = []
 
@@ -70,6 +58,11 @@ if __name__ == "__main__":
     # convert from lists to arrays
     features = np.array(features)
     labels = np.array(labels)
+
+    #print(f'Max len - features: {max([len(seq) for seq in features])}')
+    #print(f'Min len - features: {min([len(seq) for seq in features])}')
+    #print(f'Max len - labels: {max([len(seq) for seq in labels])}')
+    #print(f'Min len - labels: {min([len(seq) for seq in labels])}')
 
     print(f'Shape of features: {features.shape}')
     print(f'Shape of labels: {labels.shape}')
