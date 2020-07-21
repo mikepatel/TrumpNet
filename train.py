@@ -14,6 +14,7 @@ import os
 import numpy as np
 import pandas as pd
 import tensorflow as tf
+import matplotlib.pyplot as plt
 
 from data import Data
 from model import *
@@ -92,3 +93,5 @@ if __name__ == "__main__":
 
     # save weights > for generation, need to rebuild model with batch_size=1
     model.save_weights(SAVE_DIR)
+
+    # plot of loss function
