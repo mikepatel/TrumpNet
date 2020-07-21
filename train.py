@@ -79,7 +79,6 @@ if __name__ == "__main__":
 
     model.compile(
         loss=loss_fn,
-        #loss=tf.keras.losses.sparse_categorical_crossentropy,
         optimizer=tf.keras.optimizers.Adam()
     )
 
