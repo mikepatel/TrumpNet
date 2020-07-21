@@ -36,7 +36,7 @@ class Data:
 
         # remove obscure characters
         self.tweets_str = re.sub(
-            "[^A-Za-z0-9 \n.!?'()#$%&-]+",
+            "[^A-Za-z0-9 \n.!?'()@#$%&-]+",
             "",
             self.tweets_str
         )

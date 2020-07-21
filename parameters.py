@@ -16,7 +16,7 @@ import os
 ################################################################################
 TWEET_LENGTH = 280
 
-NUM_EPOCHS = 5
+NUM_EPOCHS = 3
 BUFFER_SIZE = 10000
 BATCH_SIZE = 64
 EMBEDDING_DIM = 256

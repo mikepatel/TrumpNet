@@ -78,17 +78,17 @@ if __name__ == "__main__":
     model.summary()
 
     model.compile(
-        #loss=loss_fn,
-        loss=tf.keras.losses.sparse_categorical_crossentropy,
-        optimizer=tf.keras.optimizers.Adam(),
-        metrics=["accuracy"]
+        loss=loss_fn,
+        #loss=tf.keras.losses.sparse_categorical_crossentropy,
+        optimizer=tf.keras.optimizers.Adam()
     )
 
     # ----- TRAIN ----- #
     history = model.fit(
-        x=sequences.repeat(),
-        epochs=NUM_EPOCHS,
-        steps_per_epoch=len(tweets) // BATCH_SIZE // MAX_SEQ_LENGTH
+        #x=sequences.repeat(),
+        x=sequences,
+        epochs=NUM_EPOCHS
+        #steps_per_epoch=len(tweets) // BATCH_SIZE // MAX_SEQ_LENGTH
     )
 
     # save weights > for generation, need to rebuild model with batch_size=1
