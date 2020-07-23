@@ -95,3 +95,11 @@ if __name__ == "__main__":
     model.save_weights(SAVE_DIR)
 
     # plot of loss function
+    plt.style.use("dark_background")
+    plt.figure(figsize=(20, 10))
+    plt.plot(history.history["loss"], label="loss")
+    plt.title("Training loss")
+    plt.xlabel("Epoch")
+    plt.ylabel("Loss")
+    plt.grid()
+    plt.savefig(os.path.join(os.getcwd(), "results\\training_loss"))
