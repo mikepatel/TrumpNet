@@ -95,9 +95,9 @@ if __name__ == "__main__":
     model.save_weights(SAVE_DIR)
 
     # plot of loss function
-    plt.style.use("dark_background")
+    #plt.style.use("dark_background")
     plt.figure(figsize=(20, 10))
-    plt.plot(history.history["loss"], label="loss")
+    plt.scatter(range(NUM_EPOCHS), history.history["loss"], label="loss", s=500)
     plt.title("Training loss")
     plt.xlabel("Epoch")
     plt.ylabel("Loss")
