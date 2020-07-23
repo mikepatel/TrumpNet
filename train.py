@@ -97,7 +97,7 @@ if __name__ == "__main__":
     # plot of loss function
     #plt.style.use("dark_background")
     plt.figure(figsize=(20, 10))
-    plt.scatter(range(NUM_EPOCHS), history.history["loss"], label="loss", s=500)
+    plt.scatter(range(1, NUM_EPOCHS+1), history.history["loss"], label="loss", s=500)
     plt.title("Training loss")
     plt.xlabel("Epoch")
     plt.ylabel("Loss")
