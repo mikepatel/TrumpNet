@@ -26,3 +26,5 @@ python generate.py
 ```
 
 ## Results
+### Visualisation of Training Loss: 6 epochs
+![loss plot](https://github.com/mikepatel/TrumpNet/blob/master/results/training_loss.png)
