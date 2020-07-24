@@ -12,7 +12,16 @@ File description:
 # Imports
 import os
 import numpy as np
+from datetime import datetime
+import urllib.request
+from time import sleep
 import tensorflow as tf
+
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 from data import Data
 from model import build_model
@@ -20,6 +29,10 @@ from parameters import *
 
 
 ################################################################################
+# generate tweet image
+def generate_tweet():
+
+
 # generate text output
 def generate_text(model, input_string):
     data = Data()
