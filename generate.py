@@ -30,7 +30,7 @@ from parameters import *
 
 ################################################################################
 # get specified element
-def get_element(id):
+def get_element(driver, id):
     elem = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.ID, id))
     )
@@ -40,7 +40,115 @@ def get_element(id):
 
 # generate tweet image
 def generate_tweet():
-    print()
+    data = Data()
+
+    # load weights
+    model = build_model(
+        vocab_size=data.get_vocab_size(),
+        batch_size=1
+    )
+
+    weights_filepath = os.path.join(SAVE_DIR)
+    model.load_weights(weights_filepath)
+    model.build(tf.TensorShape([1, None]))
+    model.summary()
+
+    # generate an output sequence
+    generated_message = generate_text(
+        model=model,
+        input_string=START_STRING
+    )
+
+    print(f'Generated message: {generated_message}')
+
+    # chromedriver
+    chromedriver_filepath = os.path.join(GENERATED_DIR, "chromedriver.exe")
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    driver = webdriver.Chrome(
+        chromedriver_filepath,
+        options=chrome_options
+    )
+
+    # open url
+    url = "https://www.tweetgen.com/create/tweet.html"
+    driver.get(url=url)
+
+    # Theme (light)
+
+    # Profile Picture
+    profile_pic_filepath = os.path.join(GENERATED_DIR, "trump_profile.jpg")
+    profile_pic_upload = get_element(driver=driver, id="pfpInput")
+    profile_pic_upload.send_keys(profile_pic_filepath)
+
+    # Name
+    name = "Donald J. Trump"
+    name_element = get_element(driver=driver, id="nameInput")
+    name_element.send_keys(name)
+
+    # Username
+    username = "realDonaldTrump"
+    username_element = get_element(driver=driver, id="usernameInput")
+    username_element.send_keys(username)
+
+    # Verified User
+    verify_checkbox = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div/div[1]/form/div[6]/div/label"))
+    )
+    verify_checkbox.click()
+
+    # Tweet Content
+    tweet_content = generated_message
+    tweet_box = get_element(driver=driver, id="tweetTextInput")
+    tweet_box.send_keys(tweet_content)
+
+    # Image (skip)
+
+    # Time
+    time = datetime.now().strftime("%H:%M")
+    time_element = get_element(driver=driver, id="time")
+    time_element.send_keys(time)
+
+    # Date
+    # Day
+    day = datetime.now().strftime("%d")
+    day_element = get_element(driver=driver, id="dayInput")
+    day_element.send_keys(day)
+
+    # Month
+    month = datetime.now().strftime("%m")
+    month_element = get_element(driver=driver, id="monthInput")
+    month_element.send_keys(month)
+
+    # Year
+    year = datetime.now().strftime("%Y")
+    year_element = get_element(driver=driver, id="yearInput")
+    year_element.send_keys(year)
+
+    # Retweets
+    randomize_button = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div/div[1]/form/div[11]/div[2]/button"))
+    )
+    randomize_button.click()
+
+    # Likes
+
+    # Client (skip)
+
+    # Generate Image and Download
+    generate_button = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, '//*[@id="downloadButton"]'))
+    )
+    generate_button.click()
+
+    # download generated image
+    sleep(1)
+    gen_image = get_element(driver=driver, id="imageOutput")
+    src = gen_image.get_attribute("src")
+    urllib.request.urlretrieve(src, os.path.join(GENERATED_DIR, "generated.png"))
+
+    driver.close()
+
 
 # generate text output
 def generate_text(model, input_string):
@@ -76,110 +184,4 @@ def generate_text(model, input_string):
 ################################################################################
 # Main
 if __name__ == "__main__":
-    data = Data()
-
-    # load weights
-    model = build_model(
-        vocab_size=data.get_vocab_size(),
-        batch_size=1
-    )
-
-    weights_filepath = os.path.join(SAVE_DIR)
-    model.load_weights(weights_filepath)
-    model.build(tf.TensorShape([1, None]))
-    model.summary()
-
-    # generate an output sequence
-    generated_message = generate_text(
-        model=model,
-        input_string=START_STRING
-    )
-    print(f'Generated message: {generated_message}')
-
-    # chromedriver
-    chromedriver_filepath = os.path.join(GENERATED_DIR, "chromedriver.exe")
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    driver = webdriver.Chrome(
-        chromedriver_filepath,
-        options=chrome_options
-    )
-
-    # open url
-    url = "https://www.tweetgen.com/create/tweet.html"
-    driver.get(url=url)
-
-    # Theme (light)
-
-    # Profile Picture
-    profile_pic_filepath = os.path.join(GENERATED_DIR, "trump_profile.jpg")
-    profile_pic_upload = get_element(id="pfpInput")
-    profile_pic_upload.send_keys(profile_pic_filepath)
-
-    # Name
-    name = "Donald J. Trump"
-    name_element = get_element(id="nameInput")
-    name_element.send_keys(name)
-
-    # Username
-    username = "realDonaldTrump"
-    username_element = get_element(id="usernameInput")
-    username_element.send_keys(username)
-
-    # Verified User
-    verify_checkbox = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div/div[1]/form/div[6]/div/label"))
-    )
-    verify_checkbox.click()
-
-    # Tweet Content
-    tweet_content = generated_message
-    tweet_box = get_element(id="tweetTextInput")
-    tweet_box.send_keys(tweet_content)
-
-    # Image (skip)
-
-    # Time
-    time = datetime.now().strftime("%H:%M")
-    time_element = get_element(id="time")
-    time_element.send_keys(time)
-
-    # Date
-    # Day
-    day = datetime.now().strftime("%d")
-    day_element = get_element(id="dayInput")
-    day_element.send_keys(day)
-
-    # Month
-    month = datetime.now().strftime("%m")
-    month_element = get_element(id="monthInput")
-    month_element.send_keys(month)
-
-    # Year
-    year = datetime.now().strftime("%Y")
-    year_element = get_element(id="yearInput")
-    year_element.send_keys(year)
-
-    # Retweets
-    randomize_button = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div/div[1]/form/div[11]/div[2]/button"))
-    )
-    randomize_button.click()
-
-    # Likes
-
-    # Client (skip)
-
-    # Generate Image and Download
-    generate_button = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, '//*[@id="downloadButton"]'))
-    )
-    generate_button.click()
-
-    # download generated image
-    sleep(1)
-    gen_image = get_element(id="imageOutput")
-    src = gen_image.get_attribute("src")
-    urllib.request.urlretrieve(src, os.path.join(GENERATED_DIR, "generated.png"))
-
-    driver.close()
+    generate_tweet()
