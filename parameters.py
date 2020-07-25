@@ -11,6 +11,20 @@ File description:
 ################################################################################
 # Imports
 import os
+import re
+import numpy as np
+import pandas as pd
+import urllib.request
+from time import sleep
+from datetime import datetime
+import matplotlib.pyplot as plt
+import tensorflow as tf
+
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 ################################################################################
@@ -26,4 +40,4 @@ MAX_SEQ_LENGTH = 100
 GENERATED_DIR = os.path.join(os.getcwd(), "generated")
 SAVE_DIR = os.path.join(os.getcwd(), "saved\\weights")
 START_STRING = "Make America"
-TEMPERATURE = 0.3
+TEMPERATURE = 0.1

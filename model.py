@@ -10,8 +10,6 @@ File description:
 """
 ################################################################################
 # Imports
-import tensorflow as tf
-
 from parameters import *
 
 
