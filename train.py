@@ -50,10 +50,6 @@ if __name__ == "__main__":
         features.append([data.char2int[c] for c in f])
         labels.append([data.char2int[c] for c in l])
 
-    # convert from lists to arrays
-    #features = np.array(features)
-    #labels = np.array(labels)
-
     print(f'Shape of features: {np.array(features).shape}')
     print(f'Shape of labels: {np.array(labels).shape}')
 
