@@ -26,5 +26,8 @@ python generate.py
 ```
 
 ## Results
+### Preliminary results
+![generated_tweet](https://github.com/mikepatel/TrumpNet/blob/master/generated/generated.png)
+
 ### Visualisation of Training Loss: 6 epochs
 ![loss plot](https://github.com/mikepatel/TrumpNet/blob/master/results/training_loss.png)
