@@ -24,26 +24,21 @@ def build_model(vocab_size, batch_size):
         output_dim=EMBEDDING_DIM,
         batch_size=batch_size
     ))
-    """
+
     # GRU layer 1
     m.add(tf.keras.layers.Bidirectional(tf.keras.layers.GRU(
         units=NUM_RNN_UNITS,
         return_sequences=True,  # return full sequence
         stateful=True
     )))
-    
-    # GRU layer 2
-    m.add(tf.keras.layers.Bidirectional(tf.keras.layers.GRU(
-        units=NUM_RNN_UNITS,
-        return_sequences=True,  # return full sequence
-        stateful=True
-    )))
+
     """
     m.add(tf.keras.layers.GRU(
         units=NUM_RNN_UNITS,
         return_sequences=True,
         stateful=True
     ))
+    """
 
     # Output layer
     m.add(tf.keras.layers.Dense(
