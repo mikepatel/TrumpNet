@@ -40,6 +40,11 @@ def build_model(vocab_size, batch_size):
     ))
     """
 
+    # Dropout layer
+    m.add(tf.keras.layers.Dropout(
+        rate=DROP_RATE
+    ))
+
     # Output layer
     m.add(tf.keras.layers.Dense(
         units=vocab_size
