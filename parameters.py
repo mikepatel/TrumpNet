@@ -30,7 +30,7 @@ from selenium.webdriver.support import expected_conditions as EC
 ################################################################################
 TWEET_LENGTH = 280
 
-NUM_EPOCHS = 5
+NUM_EPOCHS = 6
 BUFFER_SIZE = 10000
 BATCH_SIZE = 64
 EMBEDDING_DIM = 256
